@@ -14,4 +14,11 @@
 // //get all the orders
 // app.get("/orders/:marketId")
 // // to get all the fills that are done in all the orders
+
+import { Router } from "express";
+import { createOrder } from "../controllers/exchange-controller";
+
 // app.get("/fills");
+export const exchangeRouter  = Router();
+
+exchangeRouter.post('/order',createOrder)

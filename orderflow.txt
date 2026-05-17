@@ -1,0 +1,19 @@
+order recieved ->
+is user authenticated
+check if safe parse is good
+does sym exist ?
+now we do price * qty 
+ if balance is less than price * qty  we throw error to deposit more money
+ 
+ 
+  else we lock this balance
+now we check what is the order type
+
+if order type is market
+    then we won't insert it in order book
+
+    we check the opposite side orders first
+        we sort the prices by desc if buy side
+        we sort the prices by asc if sell side
+
+     

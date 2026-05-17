@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../prisma/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TradeDirection {
+  buy
+  sell
+}
+
+enum OrderType {
+  market
+  limit
+}
+
+enum OrderStatus {
+  open
+  partially_filled
+  filled
+  cancelled
+}
+
+// only support 1 currency usd
+
+model User {
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  username   String
+  password   String
+  balance    Float        @default(0.00)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  orders     Orders[]
+  userAssets UserAssets[]
+  fills      Fills[]
+}
+
+model Assets {
+  name       String
+  symbol     String       @id
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  orders     Orders[]
+  userAssets UserAssets[]
+}
+
+model UserAssets {
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  asset     Assets   @relation(fields: [sym], references: [symbol])
+  sym       String
+  price     Float
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, sym])
+}
+
+model Orders {
+  id             Int            @id @default(autoincrement())
+  user           User           @relation(fields: [userId], references: [id])
+  userId         Int
+  asset          Assets         @relation(fields: [sym], references: [symbol])
+  sym            String
+  price          Float
+  avgFillPrice   Float          @default(0)
+  filledQuantity Int            @default(0)
+  quantity       Int
+  direction      TradeDirection
+  type           OrderType
+  status         OrderStatus
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  takerFills     Fills[]        @relation("TakerFills")
+  makerFills     Fills[]        @relation("MakerFills")
+}
+
+model Fills {
+  id             Int      @id @default(autoincrement())
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+  takerOrder     Orders   @relation("TakerFills", fields: [takerOrderId], references: [id])
+  takerOrderId   Int
+  makerOrder     Orders   @relation("MakerFills", fields: [makerOrderId], references: [id])
+  makerOrderId   Int
+  filledQuantity Int
+  fillPrice      Float
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

@@ -36,11 +36,11 @@ model User {
   email      String       @unique
   username   String
   password   String
-  balance    Float        @default(0.00)
+  // balance    Float        @default(0.00)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   orders     Orders[]
-  userAssets UserAssets[]
+  // userAssets UserAssets[]
   fills      Fills[]
 }
 
@@ -50,21 +50,21 @@ model Assets {
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   orders     Orders[]
-  userAssets UserAssets[]
+  // userAssets UserAssets[]
 }
 
-model UserAssets {
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  asset     Assets   @relation(fields: [sym], references: [symbol])
-  sym       String
-  price     Float
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// model UserAssets {
+//   user      User     @relation(fields: [userId], references: [id])
+//   userId    Int
+//   asset     Assets   @relation(fields: [sym], references: [symbol])
+//   sym       String
+//   price     Float
+//   quantity  Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  @@id([userId, sym])
-}
+//   @@id([userId, sym])
+// }
 
 model Orders {
   id             Int            @id @default(autoincrement())
@@ -75,6 +75,7 @@ model Orders {
   price          Float
   avgFillPrice   Float          @default(0)
   filledQuantity Int            @default(0)
+  slippage       Float          @default(5)
   quantity       Int
   direction      TradeDirection
   type           OrderType

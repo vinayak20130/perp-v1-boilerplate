@@ -1,3 +1,4 @@
+// // on ramp and off ramp done
 // app.post("/onramp")
 // // this is for creating orders
 // app.post("/order")
@@ -16,9 +17,12 @@
 // // to get all the fills that are done in all the orders
 
 import { Router } from "express";
-import { createOrder } from "../controllers/exchange-controller";
+import { createOrder,offRamp,onRamp } from "../controllers/exchange-controller";
+import { requireAuth } from "../middlewares/auth-middleware";
 
 // app.get("/fills");
 export const exchangeRouter  = Router();
 
-exchangeRouter.post('/order',createOrder)
+exchangeRouter.post('/order',requireAuth,createOrder);
+exchangeRouter.post('/onramp',requireAuth,onRamp);
+exchangeRouter.post('/offramp',requireAuth,offRamp);

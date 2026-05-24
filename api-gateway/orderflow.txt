@@ -13,7 +13,13 @@ if order type is market
     then we won't insert it in order book
 
     we check the opposite side orders first
-        we sort the prices by desc if buy side
-        we sort the prices by asc if sell side
+       
+if order type is limit
+    if order is buy side and we are assuming that there are not bids matching
+    this on asks
+    we directly insert it in order Record
+
+    them we increase the qty of orders in orderbook and insert it in 
+    resting order array
 
      

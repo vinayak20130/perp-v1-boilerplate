@@ -2,7 +2,7 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: perp
+    container_name: perp-v1-boilerplate
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -12,5 +12,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7-alpine
+    container_name: prep-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server","--appendonly","yes"]
+    volumes:
+      - redis_data:/data
+
 volumes:
   postgres_data:
+  redis_data:
+ 

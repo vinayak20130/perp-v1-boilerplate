@@ -24,6 +24,7 @@ export class Order {
   private _filledQty = 0;
   private _status = OrderStatus.open;
   private _fills: Fill[] = [];
+  
   constructor(input: OrderInput) {
     this.orderId = crypto.randomUUID();
     this.userId = input.userId;

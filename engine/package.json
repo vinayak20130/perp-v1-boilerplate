@@ -8,9 +8,10 @@
   },
   "peerDependencies": {
     "typescript": "^5"
-  },"scripts": {
+  },
+  "scripts": {
     "dev": "bun --watch run index.ts",
-    "check":"bunx tsc --noEmit 2>&1"
+    "check": "bunx tsc --noEmit 2>&1"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
